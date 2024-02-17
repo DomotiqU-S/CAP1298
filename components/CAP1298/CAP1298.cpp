@@ -1,8 +1,19 @@
 #include "CAP1298.hpp"
 
+
 CAP1298::CAP1298(gpio_num_t sda, gpio_num_t scl, uint32_t freq, uint8_t address)
 {
-    this->busController = new I2CController(address, sda, scl, freq);
+    if(sda == scl) {
+        ESP_LOGE(TAG, "SDA and SCL pins must be different");
+        m_invalid_constructor = ESP_ERR_INVALID_ARG;
+        return;
+    }
+    
+    #ifdef UNIT_TEST
+        // MOCK I2C
+    #else
+        this->busController = new I2CController(address, sda, scl, freq);
+    #endif
 }
 
 CAP1298::~CAP1298()
@@ -13,7 +24,12 @@ esp_err_t CAP1298::begin()
 {
     esp_err_t ret;
     uint8_t tx_buffer[1];
-    ret = this->busController->begin();
+    #ifdef UNIT_TEST
+        // MOCK I2C
+        ret = ESP_OK;
+    #else
+        ret = this->busController->begin();
+    #endif
     if (ret == ESP_OK)
     {
         tx_buffer[0] = 0x8C;

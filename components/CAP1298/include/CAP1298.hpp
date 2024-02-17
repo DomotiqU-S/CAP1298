@@ -49,6 +49,8 @@
 #define CAP1298_PRODUCT_ID_VALUE 0x71
 #define CAP1298_REVISION_VALUE 0x00
 
+//#define UNIT_TEST
+
 class CAP1298
 {
 private:
@@ -57,6 +59,8 @@ private:
     uint8_t m_touchData = 0;
     uint8_t m_newTouches = 0;
     uint8_t m_newReleases = 0;
+
+    int16_t m_invalid_constructor = 0;
 public:
     CAP1298(gpio_num_t sda, gpio_num_t scl, uint32_t freq = 100000, uint8_t address = CAP1298_I2C_ADDRESS);
     ~CAP1298();
@@ -65,6 +69,7 @@ public:
     void updateTouchStatus();
     uint8_t getNewTouches() { return m_newTouches; }
     uint8_t getNewReleases() { return m_newReleases; }
+    int16_t getFlag() { return m_invalid_constructor; }
 };
 
 #endif // CAP1298_H
