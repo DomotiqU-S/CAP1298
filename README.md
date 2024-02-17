@@ -1,2 +1,2 @@
-# CAP1298
-This is the class needed to read the capacitive touch sensor
+# LightSensor
+This module communicates with the VEML7700 light meter

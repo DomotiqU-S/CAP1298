@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.0)
+set(EXTRA_COMPONENTS_DIRS "../components")
+set(TEST_COMPONENTS "testable" CACHE STRING "Testable components")
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+project(unit_test)
