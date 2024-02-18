@@ -9,6 +9,10 @@
 
 CAP1298 touch_sensor(GPIO_NUM_1, GPIO_NUM_0);
 
+/**
+ * @brief The test case checks if the CAP1298 object is created successfully
+ * 
+ */
 TEST_CASE("CAP1298 initialization", "[CAP1298]")
 {
     CAP1298* cap_driver = new CAP1298(GPIO_NUM_1, GPIO_NUM_0);
@@ -27,6 +31,14 @@ TEST_CASE("CAP1298 begin", "[CAP1298]")
 {
     CAP1298* cap_driver = new CAP1298(GPIO_NUM_1, GPIO_NUM_0);
     TEST_ASSERT_EQUAL(ESP_OK, cap_driver->begin());
+    delete cap_driver;
+}
+
+TEST_CASE("CAP1298 touchStatusChanged", "[CAP1298]")
+{
+    CAP1298* cap_driver = new CAP1298(GPIO_NUM_1, GPIO_NUM_0);
+    TEST_ASSERT_EQUAL(ESP_OK, cap_driver->begin());
+    TEST_ASSERT_FALSE(cap_driver->touchStatusChanged());
     delete cap_driver;
 }
 

@@ -9,11 +9,7 @@ CAP1298::CAP1298(gpio_num_t sda, gpio_num_t scl, uint32_t freq, uint8_t address)
         return;
     }
     
-    #ifdef UNIT_TEST
-        // MOCK I2C
-    #else
-        this->busController = new I2CController(address, sda, scl, freq);
-    #endif
+    this->busController = new I2CController(address, sda, scl, freq);
 }
 
 CAP1298::~CAP1298()
@@ -24,12 +20,7 @@ esp_err_t CAP1298::begin()
 {
     esp_err_t ret;
     uint8_t tx_buffer[1];
-    #ifdef UNIT_TEST
-        // MOCK I2C
-        ret = ESP_OK;
-    #else
-        ret = this->busController->begin();
-    #endif
+    ret = this->busController->begin();
     if (ret == ESP_OK)
     {
         tx_buffer[0] = 0x8C;
@@ -58,6 +49,7 @@ bool CAP1298::touchStatusChanged()
 void CAP1298::updateTouchStatus()
 {
     uint8_t rx_buffer[1];
+
     this->busController->readByte(rx_buffer, CAP1298_INPUT_STATUS);
 
     m_newTouches = (m_touchData ^ rx_buffer[0]) & rx_buffer[0];
