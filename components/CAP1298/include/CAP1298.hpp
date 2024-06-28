@@ -55,9 +55,11 @@ class CAP1298
 {
 private:
     I2CController *busController;
+
     uint8_t m_touchData = 0;
     uint8_t m_newTouches = 0;
     uint8_t m_newReleases = 0;
+    uint8_t m_address;
 
     int16_t m_invalid_constructor = 0;
 public:
@@ -69,7 +71,7 @@ public:
      * @param freq the I2C frequency (default 100000)
      * @param address the I2C address (default 0x28)
      */
-    CAP1298(gpio_num_t sda, gpio_num_t scl, uint32_t freq = 100000, uint8_t address = CAP1298_I2C_ADDRESS);
+    CAP1298(const gpio_num_t sda, const gpio_num_t scl, const uint32_t freq = 100000, const uint8_t address = CAP1298_I2C_ADDRESS);
     ~CAP1298();
 
     /**
@@ -77,7 +79,7 @@ public:
      * If the initialization fails, the flag will be set to a non-zero value
      * @return esp_err_t 
      */
-    esp_err_t begin();
+    esp_err_t begin() const;
 
     /**
      * @brief Check if the touch status has changed
@@ -85,7 +87,7 @@ public:
      * @return true 
      * @return false 
      */
-    bool touchStatusChanged();
+    bool touchStatusChanged() const;
 
     /**
      * @brief Update the touch status
@@ -98,21 +100,21 @@ public:
      * Will return the new touches in uint8_t format corresponding to the bits of the touchData
      * @return uint8_t 
      */
-    uint8_t getNewTouches() { return m_newTouches; }
+    uint8_t getNewTouches() const { return m_newTouches; }
 
     /**
      * @brief Get the New Releases object
      * Will return the new releases in uint8_t format corresponding to the bits of the touchData
      * @return uint8_t 
      */
-    uint8_t getNewReleases() { return m_newReleases; }
+    uint8_t getNewReleases() const  { return m_newReleases; }
 
     /**
      * @brief Get the Flag object
      * It is used to check if the constructor was successful
      * @return int16_t 
      */
-    int16_t getFlag() { return m_invalid_constructor; }
+    int16_t getFlag() const { return m_invalid_constructor; }
 
     // TODO: Implement the following methods
     /**
@@ -122,7 +124,9 @@ public:
      * @return true 
      * @return false 
      */
-    bool isMoving(bool direction) {}
+    bool isMoving(const bool direction) const {
+        return false;
+    }
 
     // TODO: Implement the following methods
     /**
@@ -132,7 +136,9 @@ public:
      * @return true 
      * @return false 
      */
-    bool isRepeatedTouch(uint8_t time_touched) {}
+    bool isRepeatedTouch(const uint8_t time_touched) const {
+        return false;
+    }
 
     // TODO: Implement the following methods
     /**
@@ -141,7 +147,9 @@ public:
      * @return true 
      * @return false 
      */
-    bool isLongTouch() {}
+    bool isLongTouch() const {
+        return false;
+    }
 };
 
 #endif // CAP1298_H
