@@ -57,13 +57,64 @@ private:
     uint8_t m_newTouches = 0;
     uint8_t m_newReleases = 0;
 public:
+
+    /**
+     * @brief Construct a new CAP1298 object
+     * 
+     * @param sda the GPIO pin number for the SDA line
+     * @param scl the GPIO pin number for the SCL line
+     * @param freq the I2C frequency
+     * @param address the I2C address of the CAP1298 default is 0x28
+     */
     CAP1298(gpio_num_t sda, gpio_num_t scl, uint32_t freq = 100000, uint8_t address = CAP1298_I2C_ADDRESS);
+
+    /**
+     * @brief Destroy the CAP1298 object
+     * 
+     */
     ~CAP1298();
+
+    /**
+     * @brief Initialize the CAP1298
+     * 
+     * @return esp_err_t 
+     */
     esp_err_t begin();
+
+    /**
+     * @brief Setup the interrupt for a specific channel
+     * 
+     * @param channel the channel to setup the interrupt for
+     * @return esp_err_t 
+     */
     esp_err_t setupInterrupt(uint8_t channel);
+
+    /**
+     * @brief Check if the touch status has changed
+     * 
+     * @return true if the touch status has changed
+     * @return false if the touch status has not changed
+     */
     bool touchStatusChanged();
+
+    /**
+     * @brief Update the touch status
+     * 
+     */
     void updateTouchStatus();
+
+    /**
+     * @brief Get the New Touches object
+     * 
+     * @return uint8_t 
+     */
     uint8_t getNewTouches() { return m_newTouches; }
+
+    /**
+     * @brief Get the New Releases object
+     * 
+     * @return uint8_t 
+     */
     uint8_t getNewReleases() { return m_newReleases; }
 };
 
