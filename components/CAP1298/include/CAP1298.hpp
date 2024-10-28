@@ -53,9 +53,11 @@ class CAP1298
 private:
     /* data */
     I2CController *busController;
+    
     uint8_t m_touchData = 0;
     uint8_t m_newTouches = 0;
     uint8_t m_newReleases = 0;
+    uint8_t m_address;
 public:
     CAP1298(gpio_num_t sda, gpio_num_t scl, uint32_t freq = 100000, uint8_t address = CAP1298_I2C_ADDRESS);
     ~CAP1298();

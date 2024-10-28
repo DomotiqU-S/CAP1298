@@ -2,7 +2,7 @@
 #include "esp_log.h"
 #include <stdio.h>
 
-#define UNIT_TEST
+// #define UNIT_TEST
 
 #ifdef UNIT_TEST
 #include "unity.h"
@@ -57,6 +57,9 @@ extern "C" void app_main(void)
     #endif
 
     esp_err_t ret = cap_driver.begin();
+
+    ret = cap_driver.setupInterrupt(2);
+
     if (ret != ESP_OK)
     {
         ESP_LOGE("CAP1298", "CAP1298 initialization failed");
@@ -66,12 +69,13 @@ extern "C" void app_main(void)
         ESP_LOGI("CAP1298", "CAP1298 initialization successful");
     }
 
-    while(1) {
-        if (cap_driver.touchStatusChanged())
-        {
-            cap_driver.updateTouchStatus();
-            ESP_LOGI("CAP1298", "New touches: %d", cap_driver.getNewTouches());
-            ESP_LOGI("CAP1298", "New releases: %d", cap_driver.getNewReleases());
-        }
-    }
+    // while(1) {
+    //     if (cap_driver.touchStatusChanged())
+    //     {
+    //         cap_driver.updateTouchStatus();
+    //         ESP_LOGI("CAP1298", "New touches: %d", cap_driver.getNewTouches());
+    //         ESP_LOGI("CAP1298", "New releases: %d", cap_driver.getNewReleases());
+    //     }
+    //     vTaskDelay(100 / portTICK_PERIOD_MS);
+    // }
 }
